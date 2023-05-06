@@ -62,6 +62,7 @@ fn main() {
     for line in stdin.lock().lines() {
         let line = line.unwrap();
         if regex.is_match(&line) {
+            let line = strip_ansi_escapes(&line);
             let mut colorspec = ColorSpec::new();
 
             let fg = args.fg.map(|c| to_color(&c));
@@ -93,4 +94,9 @@ fn to_color(color_enum: &ColorEnum) -> Color {
         ColorEnum::White => Color::White,
         ColorEnum::Magenta => Color::Magenta,
     }
+}
+
+fn strip_ansi_escapes(line: &str) -> String {
+    let re = Regex::new("\x1b\\[(\\d|;)*[a-zA-Z]").unwrap();
+    re.replace_all(line, "").to_string()
 }
