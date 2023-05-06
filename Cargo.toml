@@ -7,6 +7,8 @@ homepage = "https://github.com/dkendal/scol"
 repository = "https://github.com/dkendal/scol"
 keywords = ["cli", "terminal", "colour", "color", "ansi"]
 categories = ["command-line-utilities"]
+license = "MIT"
+lisence-file = "LICENSE"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
