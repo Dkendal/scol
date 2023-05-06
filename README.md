@@ -1,3 +1,5 @@
+![crates.io](https://img.shields.io/crates/v/scol)
+
 # Scol (Stream Colorizer)
 
 Scol is a simple command-line program that reads lines from standard input and colorizes them based on a regular expression pattern. The program supports setting both foreground and background colors for the matched text, using command-line arguments.
