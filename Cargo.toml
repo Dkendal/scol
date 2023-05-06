@@ -5,7 +5,7 @@ edition = "2021"
 description = "A simple command line tool for colouring text"
 homepage = "https://github.com/dkendal/scol"
 repository = "https://github.com/dkendal/scol"
-keywords = ["cli", "terminal", "colour", "color", "text", "ansi"]
+keywords = ["cli", "terminal", "colour", "color", "ansi"]
 categories = ["command-line-utilities"]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
