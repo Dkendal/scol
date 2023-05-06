@@ -15,7 +15,7 @@ cargo install scol
 The program's basic usage is:
 
 ```
-scol <PATTERN> [--fg <COLOR>] [--bg <COLOR>] [--ignore-case]
+scol <PATTERN> [--fg <COLOR>] [--bg <COLOR>] [--ignore-case] [--only-matching]
 ```
 
 where `<PATTERN>` is a regular expression pattern that will be used to match lines, `--fg <COLOR>` sets the foreground color of the matched text (using one of the available colors: black, red, green, yellow, blue, cyan, white, magenta), `--bg <COLOR>` sets the background color of the matched text, and `--ignore-case` makes the pattern match case-insensitively.

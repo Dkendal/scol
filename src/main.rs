@@ -18,7 +18,8 @@ struct Cli {
         long,
         value_enum,
         value_name = "COLOR",
-        required_unless_present = "bg"
+        required_unless_present = "bg",
+        help = "Set the foreground color"
     )]
     fg: Option<ColorEnum>,
 
@@ -27,12 +28,16 @@ struct Cli {
         long,
         value_enum,
         value_name = "COLOR",
-        required_unless_present = "fg"
+        required_unless_present = "fg",
+        help = "Set the background color"
     )]
     bg: Option<ColorEnum>,
 
-    #[clap(short, long)]
+    #[clap(short, long, help = "Ignore case distinctions in PATTERN")]
     ignore_case: bool,
+
+    #[clap(short, long, help = "Only print the matched parts of the line")]
+    only_matching: bool,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, ValueEnum)]
@@ -63,20 +68,27 @@ fn main() {
         let line = line.unwrap();
         if regex.is_match(&line) {
             let line = strip_ansi_escapes(&line);
-            let mut colorspec = ColorSpec::new();
 
-            let fg = args.fg.map(|c| to_color(&c));
-            let bg = args.bg.map(|c| to_color(&c));
+            let matched = regex.find(&line).unwrap();
 
-            if fg.is_some() {
-                colorspec.set_fg(fg);
+            let colorspec = ColorSpec::new()
+                .set_fg(args.fg.map_or(None, |c| Some(to_color(&c))))
+                .set_bg(args.bg.map_or(None, |c| Some(to_color(&c))))
+                .to_owned();
+
+            if args.only_matching {
+                let before = &line[..matched.start()];
+                let after = &line[matched.end()..];
+                print!("{}", before);
+                stdout.set_color(&colorspec).expect("Failed to set color");
+                println!("{}", matched.as_str());
+                stdout.reset().expect("Failed to reset stdout");
+                print!("{}", after);
+            } else {
+                stdout.set_color(&colorspec).expect("Failed to set color");
+                println!("{}", &line);
+                stdout.reset().expect("Failed to reset stdout");
             }
-            if bg.is_some() {
-                colorspec.set_bg(bg);
-            }
-            stdout.set_color(&colorspec).unwrap();
-            println!("{}", &line);
-            stdout.reset().unwrap();
         } else {
             println!("{}", &line);
         }
